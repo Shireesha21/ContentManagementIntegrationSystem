@@ -1,206 +1,100 @@
-Content Management API
+# Content Management System
 
-# Content Management API
+A REST API for managing content, simulating Adobe Experience Manager (AEM) JCR behavior.
 
-## Overview
+## Features
+- **Endpoints**:
+  - `GET /content`: Returns a welcome message with a link to API documentation.
+  - `POST /content`: Create content with title, body, author, and tags.
+  - `GET /content/{id}`: Retrieve content by ID.
+  - `GET /content/search?tag={tag}&author={author}`: Search content by tag or author.
+  - `PATCH /content/{id}`: Update tags for a content item.
+  - `DELETE /content/{id}`: Delete content by ID.
+- **Validation**: Uses Jakarta Bean Validation to ensure non-empty fields.
+- **In-Memory Storage**: Uses ConcurrentHashMap to simulate a JCR repository.
+- **Swagger Documentation**: Available at `/swagger-ui.html` for interactive API testing.
+- **AEM Simulation**: Content model and endpoints mimic JCR node structure.
+- **Error Handling**: Custom JSON responses for 404 (Not Found) and 405 (Method Not Allowed) errors.
 
-This project is a Spring Boot-based RESTful API for managing content articles. It allows users to create, update, and search content by tags and authors. The API is designed to be scalable and extensible, supporting common content management operations. The project includes unit and integration tests for comprehensive verification.
+## Tech Stack
 
-## Table of Contents
-
-1. [Prerequisites](#prerequisites)
-2. [Project Setup](#project-setup)
-3. [Running the Application](#running-the-application)
-4. [Testing](#testing)
-5. [API Endpoints](#api-endpoints)
-6. [Error Handling](#error-handling)
-7. [Common Issues](#common-issues)
-8. [License](#license)
-9. [Contributors](#contributors)
-
----
-
-## Prerequisites
-
-Before running the project, ensure that you have the following installed:
-
-- **Java 17+**: Ensure you have the Java 17 JDK installed.
-- **Maven**: For project builds and dependency management. Alternatively, you can use **Gradle** if you prefer.
-- **IDE**: An Integrated Development Environment (IDE) such as IntelliJ IDEA, Eclipse, or Visual Studio Code.
-- **Postman** or any REST client for testing the API endpoints.
-- **Git**: To clone the project from the repository.
-
----
-
-## Project Setup
-
-Follow these steps to set up the project locally.
-
-### Clone the Repository
-
-Clone the repository to your local machine using Git.
-
-```bash
-git clone https://github.com/your-repository/content-management-api.git
-cd content-management-api
-```
-### Install Dependencies
-If you're using Maven, run to install all project dependencies:
+- **Java**: 17
+- **Spring Boot**: 3.4.5 
+- **Gradle**: 3.4.5
+- **Lombok**
+- **Jakarta Validation API**
+- **JUnit 5 and Mockito for testing**
+- **IDE**: IntelliJ IDEA or Eclipse IDE or STS Suite
+- **OS**: MAC 
+- **Optional**: Postman or curl
 
 
-```bash
-git clone https://github.com/your-repository/content-management-api.git
-cd content-management-api
-```
+## Setup
+1. **Prerequisites**:
+   - Java 21 (e.g., OpenJDK 21)
+   - Gradle 3.5 or higher
+   - Git
+2. **Clone the repository**:
+   ```bash
+   git clone -b master https://github.com/your-repository/content-management-api.git
+   cd ContentManagementSystem
+   ```
+3. **Build the project**:
+   ```bash
+   gradle  build 
+   ```
+4. **Run the application**:
+   ```bash
+   gradle bootRun
+   ```
+5. **Access the API**:
+   - Swagger UI: `http://localhost:8080/swagger-ui.html`
+   - API base URL: `http://localhost:8080/content`
 
-### Install Dependencies
-If you're using Maven,run to install all project dependencies:
-```bash
-mvn clean install
-```
+## Testing
+- **Unit and Integration Tests**:
+  - Run tests using:
+    ```bash
+    gradle test
+    ```
+  - Tests cover `ContentService` (CRUD and search) and `ContentManagementController` (REST endpoints, validation).
+  - Uses JUnit 5 and Mockito with `@Mock` for mocking dependencies.
+- **Manual Testing**:
+  - Use curl, Postman, or Swagger UI to test endpoints.
+  - **Example Requests**:
+    ```bash
+    # Get message
+    curl http://localhost:8080/content
 
-### For Gradle, you can use the following:
-```bash
-gradle build
-```
-### Running the Application
+    # Create content
+    curl -X POST http://localhost:8080/content -H "Content-Type: application/json" -d '{"title":"Test Article","body":"This is a test.","author":"Admin","tags":["news","aem"]}'
 
-To run the Spring Boot application, execute the following command in your terminal:
+    # Get content by ID
+    curl http://localhost:8080/content/<id>
 
-```bash
-gradle bootRun
-```
+    # Search content by tag
+    curl "http://localhost:8080/content/search?tag=news"
 
+    # Update tags
+    curl -X PATCH http://localhost:8080/content/<id> -H "Content-Type: application/json" -d '{"tags":["updated"]}'
 
+    # Delete content
+    curl -X DELETE http://localhost:8080/content/<id>
+    ```
+- **Swagger Testing**:
+  - Open `http://localhost:8080/swagger-ui.html` to test endpoints interactively.
 
-##Testing
+## Development Environment
+- **IDE**: Visual Studio Code
+- **Recommended Extensions**:
+  - Java Extension Pack (Microsoft)
+  - Spring Boot Extension Pack (VMware)
+  - Lombok Annotations Support for VS Code (Gabriel Basto)
+  - Test Runner (Microsoft)
+- **Debugging**:
+  - Set breakpoints in VS Code and use the Debug view (FN+F6) to inspect code to jump into next toggle point (FN+F8).
 
-###The project includes tests that can be run via Maven or Gradle.
-
-###Unit Tests
-
-To run unit tests for your project, execute the following command:
-
-For Gradle:
-```bash
-gradle test
-```
-###The test suite includes:
-
-- Valid and invalid content creation
-- Search functionality (tag-based search)
-- Error handling for edge cases like missing parameters or invalid data
-- Controller tests using MockMvc
-- API Endpoints
-
-## API Endpoints
-
-###POST
-
-
-* **POST /content:  Create new content with optional children .**
-* **GET /content/{id}: Retrieve content by ID with children.**
-* **GET /content/search: Search content by tag or author, including children.**
-* **PATCH /content/{id}: Update content metadata and children.**
-* **DELETE /delete/{id}: Delete content and its children by ID.**
-
-
-1. Create Content 
-* **POST /content**
-Creates new content with optional children details 
-* **Payload**
-Request Body: ContentDTO 
-{
-  "title": "Sample Article",
-  "body": "This is a test article.",
-  "author": "Admin",
-  "tags": ["news", "aem"]
-  "createdAt": "2025-05-12T10:00:00"
-  "updatedAt": "2025-05-12T11:00:00"
-}
-* **Responses:**
-201 Created
-400 Bad Request 
-
-
-2.Retrieve Content by ID: 
-* **GET /content/{id}:**
- Retrieve content by ID with children.
-* **Payload**
-Request Body: Content Details
-ContentDTO 
-{
-  "title": "Sample Article",
-  "body": "This is a test article.",
-  "author": "Admin",
-  "tags": ["news", "aem"]
-  "createdAt": "2025-05-12T10:00:00"
-  "updatedAt": "2025-05-12T11:00:00"
-}
-* **Responses:**
-200 OK 
-400 Bad Request 
-404 Not Found 
-  
-3. Search Content by Tag or Author
-* **GET /content/search**
-Search content by tag or author, including children.
-* **Query Parameters:**
--tag optional
--author optional
-Responses:
-200 OK – Returns the list of matching content
-404 Not Found – If no matching content is found
-
-4. Update Content Metadata
-* **PATCH /content/{id}: Update content metadata and children.**
-- Request Body: ContentDTO (JSON)
-* **Path Variable:**
-- id ( ID of the content to update )
-
-Responses:
-200 OK – On success
-400 Bad Request – If validation fails
-404 Not Found – If the content does not exist
-Error Handling
-
-This application uses standard HTTP status codes for error handling:
-
-400 Bad Request: Validation errors, such as missing required fields.
-404 Not Found: When a requested resource is not found.
-500 Internal Server Error: General server-side errors or unexpected issues.
-Example Error Response:
-{
-  "timestamp": "2025-05-12T08:29:26",
-  "status": 500,
-  "error": "Server Error",
-  "message": "An unexpected error occurred",
-  "details": ["Name for argument of type [java.lang.String] not specified."]
-}
-Common Issues
-
-1. 500 Error on GET /content/search
-Issue: The error may be related to missing query parameters or issues in the service layer.
-Solution: Ensure that the controller method handles the query parameters correctly. Also, ensure that the service layer (ContentService) returns data as expected.
-2. JSON Parse Error
-Issue: Invalid or incomplete JSON data in the request body.
-Solution: Make sure that the ContentDTO fields are correctly populated and the required fields are not null when sending the request.
-3. Missing Path Parameter in PATCH /content/{id}
-Issue: The ID parameter is required in the path, but it's missing.
-Solution: Make sure the URL is correctly formatted, including the id path variable.
-4. Validation Failure
-Issue: When required fields like title, body, or author are empty, validation fails.
-Solution: Ensure all required fields are filled in the request body before submitting.
-License
-
-This project is open-source and licensed under the MIT License. See the LICENSE file for more details.
-
-Contributors
-
-Shireesha (Java Full Stack Developer)
-
-This **HELP.md** provides detailed documentation for setting up, running, and troubleshooting
-
-
-
-
+## Notes
+- The application simulates AEM JCR behavior using in-memory storage and JCR-like endpoint paths.
+- Custom error handling ensures clear JSON responses for invalid requests.
+- All endpoints are documented in Swagger UI for easy exploration.
