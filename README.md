@@ -1,4 +1,6 @@
-# README.md - Content Management API
+Content Management API
+
+# Content Management API
 
 ## Overview
 
@@ -41,74 +43,125 @@ Clone the repository to your local machine using Git.
 ```bash
 git clone https://github.com/your-repository/content-management-api.git
 cd content-management-api
+```
+### Install Dependencies
+If you're using Maven, run to install all project dependencies:
 
 
-Install Dependencies
+```bash
+git clone https://github.com/your-repository/content-management-api.git
+cd content-management-api
+```
+
+### Install Dependencies
 If you're using Maven,run to install all project dependencies:
 ```bash
 mvn clean install
+```
 
-For Gradle, you can use the following:
+### For Gradle, you can use the following:
 ```bash
 gradle build
-
-Running the Application
+```
+### Running the Application
 
 To run the Spring Boot application, execute the following command in your terminal:
+
 ```bash
-mvn spring-boot:run
+gradle bootRun
+```
 
-Testing
 
-The project includes tests that can be run via Maven or Gradle.
 
-Unit Tests
+##Testing
+
+###The project includes tests that can be run via Maven or Gradle.
+
+###Unit Tests
+
 To run unit tests for your project, execute the following command:
 
-mvn test
 For Gradle:
-
+```bash
 gradle test
-The test suite includes:
+```
+###The test suite includes:
 
-Valid and invalid content creation
-Search functionality (tag-based search)
-Error handling for edge cases like missing parameters or invalid data
-Controller tests using MockMvc
-API Endpoints
+- Valid and invalid content creation
+- Search functionality (tag-based search)
+- Error handling for edge cases like missing parameters or invalid data
+- Controller tests using MockMvc
+- API Endpoints
 
-POST /content
-Creates new content.
+## API Endpoints
 
-Request Body: ContentDTO (JSON)
+###POST
+
+
+* **POST /content:  Create new content with optional children .**
+* **GET /content/{id}: Retrieve content by ID with children.**
+* **GET /content/search: Search content by tag or author, including children.**
+* **PATCH /content/{id}: Update content metadata and children.**
+* **DELETE /delete/{id}: Delete content and its children by ID.**
+
+
+1. Create Content 
+* **POST /content**
+Creates new content with optional children details 
+* **Payload**
+Request Body: ContentDTO 
 {
-  "title": "Test Article",
-  "body": "This is the article content.",
+  "title": "Sample Article",
+  "body": "This is a test article.",
   "author": "Admin",
-  "tags": ["news", "tech"],
+  "tags": ["news", "aem"]
   "createdAt": "2025-05-12T10:00:00"
+  "updatedAt": "2025-05-12T11:00:00"
 }
-Responses:
-201 Created – On success
-400 Bad Request – If validation fails
-PATCH /content/{id}
-Updates existing content by its id.
+* **Responses:**
+201 Created
+400 Bad Request 
 
-Request Body: ContentDTO (JSON)
-Path Variable: id – ID of the content to update
+
+2.Retrieve Content by ID: 
+* **GET /content/{id}:**
+ Retrieve content by ID with children.
+* **Payload**
+Request Body: Content Details
+ContentDTO 
+{
+  "title": "Sample Article",
+  "body": "This is a test article.",
+  "author": "Admin",
+  "tags": ["news", "aem"]
+  "createdAt": "2025-05-12T10:00:00"
+  "updatedAt": "2025-05-12T11:00:00"
+}
+* **Responses:**
+200 OK 
+400 Bad Request 
+404 Not Found 
+  
+3. Search Content by Tag or Author
+* **GET /content/search**
+Search content by tag or author, including children.
+* **Query Parameters:**
+-tag optional
+-author optional
+Responses:
+200 OK – Returns the list of matching content
+404 Not Found – If no matching content is found
+
+4. Update Content Metadata
+* **PATCH /content/{id}: Update content metadata and children.**
+- Request Body: ContentDTO (JSON)
+* **Path Variable:**
+- id ( ID of the content to update )
+
 Responses:
 200 OK – On success
 400 Bad Request – If validation fails
 404 Not Found – If the content does not exist
-GET /content/search
-Search for content by tags (and optionally, authors).
-
-Query Parameters:
-tag (required)
-author (optional)
-Responses:
-200 OK – Returns the list of matching content
-404 Not Found – If no matching content is found
 Error Handling
 
 This application uses standard HTTP status codes for error handling:
@@ -144,8 +197,7 @@ This project is open-source and licensed under the MIT License. See the LICENSE 
 
 Contributors
 
-Your Name (Developer / Maintainer)
-Other Contributors (if applicable)
+Shireesha (Java Full Stack Developer)
 
 This **HELP.md** provides detailed documentation for setting up, running, and troubleshooting
 
