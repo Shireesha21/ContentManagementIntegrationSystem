@@ -1,4 +1,8 @@
 # 📚 Content Management System (CMS)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen?logo=springboot)
+![Java](https://img.shields.io/badge/Java-17+-blue?logo=java)
+![Build](https://img.shields.io/badge/Build-Gradle-blue?logo=gradle)
+![Status](https://img.shields.io/badge/Status-Working-green)
 
 A lightweight, in-memory **RESTful API** that mimics **Adobe Experience Manager (AEM)** JCR behavior for content management.
 
