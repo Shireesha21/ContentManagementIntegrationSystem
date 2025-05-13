@@ -106,29 +106,29 @@ ContentController – endpoints
 Uses JUnit 5 + Mockito
 
 - ***🧪 Manual Testing (Postman / curl)***
-# Create content
+## Create content
 ```bash
 curl -X POST http://localhost:8080/content \
   -H "Content-Type: application/json" \
   -d '{"title":"Hello","body":"World","author":"Admin","tags":["aem","news"]}'
 ```
 
-# Get content by ID
+## Get content by ID
 ```bash
 curl http://localhost:8080/content/{id}
 ```
-# Search content
+## Search content
 ```bash
 curl "http://localhost:8080/content/search?tag=aem"
 ```
-# Update tags
+## Update tags
 ```bash
 curl -X PATCH http://localhost:8080/content/{id} \
   -H "Content-Type: application/json" \
   -d '{"tags":["updated"]}'
 ```
 
-# Delete content
+## Delete content
 ```bash
 curl -X DELETE http://localhost:8080/content/{id}
 ```
