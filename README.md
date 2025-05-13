@@ -9,7 +9,7 @@ A lightweight, in-memory **RESTful API** that mimics **Adobe Experience Manager 
 - 📄 **CRUD API for Content**:
   - `GET /content`: Used to display the content
   - `POST /content`: Creates content with following parameters (`title`, `body`, `author`, `tags`)
-  - `GET /content/{id}`: Fetch content by ID
+  - `GET /content/{id}`: Fetch content by Id
   - `GET /content/search?tag=&author=`: Search by tag and/or author (`Tag` and `Author` are not mandatory)
   - `PATCH /content/{id}`: Updates tags
   - `DELETE /content/{id}`: Remove content by id
@@ -18,7 +18,7 @@ A lightweight, in-memory **RESTful API** that mimics **Adobe Experience Manager 
   - Used basic Jakarta Bean Validations as we are making use of in-memory storage(ConcurrentHashMap) ensures non-empty fields.
   - Added Custom Annotations
 
-- 💾 **In-Memory Repository**: Uses `ConcurrentHashMap` to simulate JCR-like storage
+- 💾 **In-Memory Repository**: Uses `ConcurrentHashMap` to simulate JCR like storage
 
 - 🔍 **Swagger UI**: API docs and interactive testing at `/swagger-ui.html`
 
@@ -85,53 +85,84 @@ cd content-management-api
 ```bash
 ./gradlew build
 ```
+
 ### 4. ▶️ Run the App
 ```bash
 ./gradlew bootRun
 ```
-### 5. 🌐 Access API
-Swagger UI: http://localhost:8080/swagger-ui.html
-Base URL: http://localhost:8080/content
+
+### 5. 🌐 Access API   
+
+Swagger UI: 
+```bash
+http://localhost:8080/swagger-ui.html
+```   
+Base URL:    
+```bash
+http://localhost:8080/content
+```
 
 ### 6. 🧪 Testing
 
-- ***🔍 Unit & Integration Tests:***
+**🔍 Unit & Integration Tests**:
 ```bash
 ./gradlew test
 ```
-- ***Tests cover:***
+
+**Tests cover**:
 
 ContentService – logic & validation
 ContentController – endpoints
 Uses JUnit 5 + Mockito
 
-- ***🧪 Manual Testing (Postman / curl)***
-## Create content
+**Manual Testing (curl)**:  
+
+***Create content***
 ```bash
 curl -X POST http://localhost:8080/content \
   -H "Content-Type: application/json" \
   -d '{"title":"Hello","body":"World","author":"Admin","tags":["aem","news"]}'
 ```
 
-## Get content by ID
+***Get content by ID***
 ```bash
 curl http://localhost:8080/content/{id}
 ```
-## Search content
+***Search content***
 ```bash
 curl "http://localhost:8080/content/search?tag=aem"
 ```
-## Update tags
+***Update tags***
 ```bash
 curl -X PATCH http://localhost:8080/content/{id} \
   -H "Content-Type: application/json" \
   -d '{"tags":["updated"]}'
 ```
-
-## Delete content
+***Delete content***
 ```bash
 curl -X DELETE http://localhost:8080/content/{id}
 ```
+
+- ***Postman Testing***:
+***Create content (Sample)***
+```bash
+Method: POST 
+URL: http://localhost:8080/content 
+Headings:
+       "Content-Type": "application/json"
+       "Accept"      : "application/json"
+Body:
+    {
+      "title":"Hello",
+      "body":"World",
+      "author":"Admin",
+      "tags":["aem","news"]
+    }
+```
+
+For remaining check in SwaggerUI
+
+
 ### 7. 💻 Recommended Dev Environment
 
 ***IDE:***
@@ -148,9 +179,10 @@ Set breakpoints and debug with VS Code `(FN+F6/FN+F8)`
 
 ### 8. 📌 Notes
 
-This project simulates a mini AEM-like CMS using Spring Boot & in-memory JCR structure
-All endpoints and usage are fully documented via Swagger
-Clean separation of concerns for controller, service, repository, and model
+- This project simulates a mini AEM like CMS using Spring Boot & in-memory JCR structure.
+- All endpoints and usage are fully documented via Swagger
+- Future Developments can be including full Spring Security, OAuth, Vaulting, adding database and more.
+
 
 ### 9. 📫 Contact
 
